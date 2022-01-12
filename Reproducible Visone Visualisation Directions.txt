@@ -1,0 +1,101 @@
+Directions for Visualising Tangible Support in Arang Dak Using Visone
+https://visone.ethz.ch
+https://visone.info/wiki/index.php/Backbone_Layout
+
+
+- Ensure that reciprocated links are superimposed/overlapped, not parallel/side-by-side, by:
+	 - Bringing up the "Configuration" Pane by going to the taskbar (Mac) and selecting "File > Options"
+	 - Setting "Multi-Link Distance" to zero
+	 - Pressing "apply" and then "close"
+
+
+- Load "Arang.Dak.Tangible.Support.Intersection.graphml" into Visone.
+- https://visone.ethz.ch/wiki/index.php/Visualization_and_analysis_(tutorial)
+- One Network Snapshot/Wave for the 108 Adults (1,485 Ties)
+
+
+- Left-hand Window Pane
+	- Select "Visualisation" 
+		- Category == Layout 
+		- Layout == Node Layout
+		- Node Layout == Backbone Layout
+		- Backbone Type == Quadrilateral Simmelian
+
+	- Under "Link Sparsification"
+		- Threshold == Percentage
+		- (Percentage of links) To Keep == 0.4
+		- SELECT Maintain/Yes next to Connectivity
+		- DESELECT "Backbone Strength" next to Link Colour
+		- SELECT Layout
+
+	- Press "Visualise" at the Bottom of the Layout Pane
+
+
+- Visualise the direction of ALL links by pressing "Command + D" (on a Mac)
+
+
+- Back in the Left-hand Window Pane under "Visualisation"
+	- Category == Mapping 
+	- Type == Color
+	- Property == Link Colour
+	- Attribute == Close.Kinship.Numeric
+	- Method == Colour Table 
+	- Scroll to the Bottom of Colour Mapping Pane and Choose Colours from the file: 
+	  "Relatedness Custom Colour Palette KARPFENBLAU_GOLD.pdf" 
+	  The Palette was created using the "unikn" R package (https://cran.r-project.org/web/packages/unikn/vignettes/colors.html)
+
+	- Click the colour for Value 1 (Relatedness = 0, Not Close Kin) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code FFD700 for Lemon Yellow 
+		- Set Alpha/Transparency to 60
+		- Close Color Picker
+
+	- Click the colour for Value 2 (Relatedness = 0.125) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code ABCE75 for Lime Green 
+		- Set Alpha/Transparency to 80
+		- Close Color Picker
+
+	- Click the colour for Value 3 (Relatedness = 0.156) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code 82CAAF for Sea-foam Green 
+		- Set Alpha/Transparency to 80
+		- Close Color Picker
+
+	- Click the colour for Value 4 (Relatedness = 0.188) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code 62BFD3 for Blue Green 
+		- Set Alpha/Transparency to 180
+		- Close Color Picker
+
+	- Click the colour for Value 5 (Relatedness = 0.25) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code 51A9D5 for Light Blue 
+		- Set Alpha/Transparency to 180
+		- Close Color Picker
+	- Click the colour for Value 6 (Relatedness = 0.375) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code 4B8CC0 for Blue 
+		- Set Alpha/Transparency to 180
+		- Close Color Picker
+
+	- Click the colour for Value 7 (Relatedness = 0.5) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code 4470AB for Navy 
+		- Set Alpha/Transparency to 180
+		- Close Color Picker
+
+	- Click the colour for Value 8 (Relatedness = 1.0) to open the Colour Picker
+		- Select RGB
+		- Enter HEX Code DC0D0D for Cherry Red
+		- Set Alpha/Transparency to 255
+		- Close Color Picker
+
+	- Press "Visualise" at the bottom of the Colour Mapping Pane
+	
+	
+- Export the graph as a PDF (on a Mac) by bringing up the 
+  taskbar and selecting "File > Export"
+
+
+
