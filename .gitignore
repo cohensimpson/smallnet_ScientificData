@@ -1,3 +1,5 @@
 
-.DS_Store
+*.rds
+*.RData
 *.docx
+.DS_Store
