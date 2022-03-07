@@ -7,7 +7,7 @@ library(groundhog)
 
 
 ## The groundhog.library() command requires two values. Like library(), you indicate which package
-## you want to load. And you must enter a date — any date (formatted as "yyyy-mm-dd"). 
+## you want to load. And then you must enter a date — any date (formatted as "yyyy-mm-dd"). 
 ## Groundhog will load the most recent version of the named package from CRAN corresponding to the  
 ## entered date. Groundhog will also load all dependencies of that package that are current on the
 ## entered date. Put simply, and borrowing from the package creator (see: https://groundhogr.com ):
@@ -26,20 +26,26 @@ library(groundhog)
 ## Similarly, I have included the source code for the version of groundhog used for this 
 ## project with the replication materials and it should also be installed manually first.
 
+## Note that Groundhog does not always play nicely with one's normal R library.
+## Specifically, you may need to uninstall packages prior to use groundhog.library()
+## Accordingly, please pay attention to the prompnts/warnings provided by groundhog
 
-groundhog.library("network", "2021-06-12", quiet.install = FALSE)
-groundhog.library("sna", "2021-06-12", quiet.install = FALSE)
+## N.B., you may need to give Groundhog permission to create a folder on your hard drive (follow the prompts)
+## N.B., RStudio can preload packages in the background when using the package operators "::" and ":::" (https://community.rstudio.com/t/when-does-r-studio-autoload-packages/96649/2). This can break groundhog loading via package clashes.
+## N.B., you may need to install GFortran which is used to install the Matrix package
+## N.B., you may need to install the package ‘tcltk’ which RSiena uses to display model progress when estimation is not set to silent.
 
-groundhog.library("abind", "2021-06-12", quiet.install = FALSE)
-groundhog.library("purrr", "2021-06-12", quiet.install = FALSE)
-groundhog.library("tidyverse", "2021-06-12", quiet.install = FALSE) ## You may also need to install GFortran which is used to install the Matrix package
+groundhog.library("network", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
+groundhog.library("sna", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
 
-groundhog.library("stargazer", "2021-06-12", quiet.install = FALSE)
-groundhog.library("pastecs", "2021-06-12", quiet.install = FALSE)
+groundhog.library("abind", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
+groundhog.library("dplyr", "2022-01-31", quiet.install = TRUE, force.source = TRUE) 
+groundhog.library("purrr", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
 
-groundhog.library("devtools", "2021-06-12", quiet.install = FALSE)
+groundhog.library("stargazer", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
+groundhog.library("pastecs", "2022-01-31", quiet.install = TRUE, force.source = TRUE)
 
-library(RSiena) ## You may also need to install the package ‘tcltk’ which RSiena uses to display model progress when estimation is not set to silent.
+library(RSiena) 
 
 library(parallel) ## Not on CRAN, automatically installed with Base R.
 
@@ -366,21 +372,21 @@ gden(tangible.support.matrix.intersection, mode = "digraph") ## Network Density
 grecip(tangible.support.matrix.intersection, measure = "edgewise") ## Tie Reciprocity (i.e., proportion of edges/arcs which are reciprocated)
 gtrans(tangible.support.matrix.intersection, mode = "digraph", measure = "weak") ## Graph-Level Transitivity
 
-sna::dyad.census(tangible.support.matrix.intersection)
-sna::triad.census(tangible.support.matrix.intersection)
+dyad.census(tangible.support.matrix.intersection)
+triad.census(tangible.support.matrix.intersection)
 
-quantile(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"), probs = seq(0, 1 ,0.05))
-quantile(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"), probs = seq(0, 1, 0.05))
+quantile(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"), probs = seq(0, 1 ,0.05))
+quantile(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"), probs = seq(0, 1, 0.05))
 
-table(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
-table(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
+table(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
+table(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
 
-stat.desc(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
-stat.desc(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
+stat.desc(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
+stat.desc(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
 
 
 
-################################ MODEL ESTIMATION: MAIN MODELS USING LAMBDA = 36 #################################
+################################ PREPARATION OF OBJECTS FOR MODEL FITTING #################################
 villagers <- rownames(tangible.support.matrix.intersection)
 villagers.size <- length(villagers)
 villagers <- sienaNodeSet(villagers.size, nodeSetName = "villagers", names = villagers)
@@ -528,8 +534,8 @@ multidata <- sienaDataCreate(support_net,
 
 
 
-############################################# DEFINE SIENA ALGORITHM AND RUN CROSS-SECTIONAL MODELS
-modelparams <- sienaAlgorithmCreate(projname = "RI_Arang_Dak_2021_Estimation_History", cond = FALSE, maxlike = FALSE
+############################################# DEFINE SIENA ALGORITHM AND RUN CROSS-SECTIONAL SAOMS
+modelparams <- sienaAlgorithmCreate(projname = "RI_Arang_Dak_2022_Estimation_History", cond = FALSE, maxlike = FALSE
                                     
                                     # Number of subphases in phase 2.
                                     , nsub = 4
@@ -648,7 +654,7 @@ fit4.ans <- siena07RunToConvergence(alg = modelparams, dat = multidata, eff = fi
 
 
 
-################################ MULTI-PARAMETER WALD TEST (Models 1-4) ################################ 
+################################ MULTI-PARAMETER WALD TESTS (MODELS 1-4) ################################ 
 ## RUN: ?Multipar.RSiena
 fit2.ans.Walt.test <- Multipar.RSiena(ans = fit2.ans, 4, 7:9, 11:31) ## Positive integers specify the tested effects (as numbered in "print(ans)")
 print(fit2.ans.Walt.test)
@@ -689,6 +695,24 @@ fit8.modeffects <- setEffect(fit4.modeffects, Rate, initialValue = 108, name = "
 fit8.ans <- siena07RunToConvergence(alg = modelparams, dat = multidata, eff = fit8.modeffects, ans0 = NULL, modelName = "fit8.ans", batch = TRUE, verbose = FALSE, silent = FALSE, nbrNodes = cores, useCluster = FALSE)
 
 
+
+################################# Save All Converged SAOMs for GitHub ################################# 
+## As of March 2022, GitHub limits the size of individuals files to 100MB or less (https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)
+## Accordingly, I cannot upload the entire R workspace post model fitting and goodness-of-fit which is over 1GB
+## Still, to save time for replicators, and for posterity, files for all eight fitted models reported in the paper are included on GitHub
+## Note that siena07RunToConvergence() will automatically save each fitted SAOM until the model converges. 
+## Accordingly, the files saved here are equivalent to the converged model returned by siena07RunToConvergence()
+## For example, "SAOM_Model_1_Conventional_Model_Lambda_36.RData" is the same as "fit1.ans_SIENA_Iteration_Number_1_CONVERGED.RData"
+
+save(fit1.ans, file = "SAOM_Model_1_Conventional_Model_Lambda_36.RData")
+save(fit2.ans, file = "SAOM_Model_2_Extended_Model_Lambda_36.RData")
+save(fit3.ans, file = "SAOM_Model_3_Network_Aid_Model_Restricted_Lambda_36.RData")
+save(fit4.ans, file = "SAOM_Model_4_Network_Aid_Model_Full_Lambda_36.RData")
+
+save(fit5.ans, file = "SAOM_Model_5_Conventional_Model_Lambda_108.RData")
+save(fit6.ans, file = "SAOM_Model_6_Extended_Model_Lambda_108.RData")
+save(fit7.ans, file = "SAOM_Model_7_Network_Aid_Model_Restricted_Lambda_108.RData")
+save(fit8.ans, file = "SAOM_Model_8_Network_Aid_Model_Full_Lambda_108.RData")
 
 
 
@@ -818,6 +842,7 @@ siena.coefs <- lapply(X = rev(intersection.Nicaragua.sienaFits), ## Reverse the 
                       }
 )
 
+## reduce() comes from the library("purr"); left_join() comes from the library("dplyr")
 siena.coefs <- reduce(.x = siena.coefs, .f = left_join, by = "effect") ## Left join; https://stackoverflow.com/questions/8091303/simultaneously-merge-multiple-data-frames-in-a-list
 
 
@@ -911,14 +936,14 @@ siena.coefs[, c("beta_hat_M4", "beta_hat_M8",
 
 
 ################################# TABLE 2 (PART 2) AND TABLE 3 (PART 2): SAOM GOODNESS OF FIT ################################# 
-## See ?RSiena::sienaGOF
+## RUN: ?sienaGOF
 GeodesicDistribution <- function (i, data, sims, period, groupName,
                                   varName, levls = c(1:5, Inf), cumulative = FALSE, ...) {
-  x <- RSiena::networkExtraction(i, data, sims, period, groupName, varName)
+  x <- networkExtraction(i, data, sims, period, groupName, varName)
   require(network)
   require(sna)
-  # a <- sna::geodist(symmetrize(x))$gdist ## http://faculty.ucr.edu/~hanneman/nettext/C7_Connection.html#geodesic
-  a <- sna::geodist(x)$gdist ## These are the geodesic distances for directed paths
+  # a <- geodist(symmetrize(x))$gdist ## http://faculty.ucr.edu/~hanneman/nettext/C7_Connection.html#geodesic
+  a <- geodist(x)$gdist ## These are the geodesic distances for directed paths
   if (cumulative)
   {
     gdi <- sapply(levls, function(i){ sum(a <= i) })
@@ -934,8 +959,8 @@ GeodesicDistribution <- function (i, data, sims, period, groupName,
 
 CliqueCensus <- function (i, obsData, sims, period, groupName, varName, levls = 1:5){
   require(sna)
-  x <- RSiena::networkExtraction(i, obsData, sims, period, groupName, varName)
-  cc0 <- sna::clique.census(x, mode = "graph", tabulate.by.vertex = FALSE,
+  x <- networkExtraction(i, obsData, sims, period, groupName, varName)
+  cc0 <- clique.census(x, mode = "graph", tabulate.by.vertex = FALSE,
                             enumerate = FALSE)[[1]]
   cc <- 0*levls
   names(cc) <- as.character(levls)
@@ -945,10 +970,10 @@ CliqueCensus <- function (i, obsData, sims, period, groupName, varName, levls = 
 }
 
 
-maxInDegree <- max(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
-maxOutDegree <- max(sna::degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
-maxGeodist <- max(sna::geodist(tangible.support.matrix.intersection, inf.replace = -99)$gdist) ## Replace infinite geodesics with -99 to easily retrieve max
-maxClique <- max(as.numeric(names(sna::clique.census(tangible.support.matrix.intersection,  mode = "graph", tabulate.by.vertex = FALSE, enumerate = FALSE)$clique.count)))
+maxInDegree <- max(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
+maxOutDegree <- max(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
+maxGeodist <- max(geodist(tangible.support.matrix.intersection, inf.replace = -99)$gdist) ## Replace infinite geodesics with -99 to easily retrieve max
+maxClique <- max(as.numeric(names(clique.census(tangible.support.matrix.intersection,  mode = "graph", tabulate.by.vertex = FALSE, enumerate = FALSE)$clique.count)))
 
 intersection.Nicaragua.sienaGOFs.indegree <- list()
 intersection.Nicaragua.sienaGOFs.outdegree <- list()
@@ -1015,68 +1040,68 @@ rm(model, focal.fit,
 
 
 ## Plot the distributions to visually compare fit (Main Models).
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[1]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[2]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[3]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[4]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[1]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[2]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[3]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[4]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[1]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[2]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[3]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[4]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[1]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[2]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[3]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[4]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[1]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[2]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[3]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[4]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[1]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[2]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[3]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[4]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[1]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[2]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[3]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[4]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[1]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[2]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[3]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[4]], center = TRUE, scale = TRUE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[1]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[2]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[3]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[4]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[1]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[2]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[3]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[4]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[1]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[2]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[3]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[4]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[1]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[2]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[3]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[4]], center = TRUE, scale = TRUE, violin = FALSE)
 
 
 
 ## Plot the distributions to visually compare fit (Robustness Check Models).
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[5]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[6]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[7]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.indegree[[8]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[5]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[6]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[7]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.indegree[[8]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[5]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[6]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[7]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.outdegree[[8]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[5]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[6]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[7]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.outdegree[[8]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[5]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[6]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[7]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.geodist[[8]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[5]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[6]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[7]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.geodist[[8]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[5]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[6]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[7]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.triadcensus[[8]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[5]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[6]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[7]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.triadcensus[[8]], center = TRUE, scale = TRUE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[5]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[6]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[7]], center = FALSE, scale = FALSE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.cliquecensus[[8]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[5]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[6]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[7]], center = FALSE, scale = FALSE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.cliquecensus[[8]], center = FALSE, scale = FALSE, violin = FALSE)
 
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[5]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[6]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[7]], center = TRUE, scale = TRUE, violin = FALSE)
-RSiena:::plot.sienaGOF(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[8]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[5]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[6]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[7]], center = TRUE, scale = TRUE, violin = FALSE)
+plot(intersection.Nicaragua.sienaGOFs.consanguineous.ties[[8]], center = TRUE, scale = TRUE, violin = FALSE)
 
 
 
@@ -1175,11 +1200,11 @@ table(tangible.support.matrix.intersection*close.kin)
 
 
 ## How many dyads and triads amongst close kin? (Referenced in the Discussion of the paper)
-sna::dyad.census(tangible.support.matrix.intersection)
-sna::dyad.census(tangible.support.matrix.intersection*close.kin)
+dyad.census(tangible.support.matrix.intersection)
+dyad.census(tangible.support.matrix.intersection*close.kin)
 
-sna::triad.census(tangible.support.matrix.intersection)
-sna::triad.census(tangible.support.matrix.intersection*close.kin)
+triad.census(tangible.support.matrix.intersection)
+triad.census(tangible.support.matrix.intersection*close.kin)
 
 
 ## Snijders' Degree of Certainty

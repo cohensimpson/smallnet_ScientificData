@@ -1,6 +1,16 @@
 
 *.rds
 *.RData
+!SAOM_Model_1_Conventional_Model_Lambda_36.RData
+!SAOM_Model_2_Extended_Model_Lambda_36.RData
+!SAOM_Model_3_Network_Aid_Model_Restricted_Lambda_36.RData
+!SAOM_Model_4_Network_Aid_Model_Full_Lambda_36.RData
+!SAOM_Model_5_Conventional_Model_Lambda_108.RData
+!SAOM_Model_6_Extended_Model_Lambda_108.RData
+!SAOM_Model_7_Network_Aid_Model_Restricted_Lambda_108.RData
+!SAOM_Model_8_Network_Aid_Model_Full_Lambda_108.RData
 *.docx
 .DS_Store
 Figure 1 SciData Social Support and Network Formation (2022-03-02).pdf
+*.txt
+!RI_Arang_Dak_2022_Estimation_History.txt
