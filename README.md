@@ -11,7 +11,7 @@ Evolutionary studies of cooperation in traditional human societies indicate that
 ## R Code
 Here, you will find a single R Script and two ".csv" data files. I have treated the R script a bit like a running "notebook". Accordingly, throughout the script, you will find code to carry out the analyses reported in my paper alongside commands used to produce useful print out (e.g., descriptive statistics, small tables, plots, etc.) and comments that (hopefully) give you insight into the thinking behind the decisions I take.
 
-**_After_** you have placed the data files and the R script in the same R working directory, installed the necessary packages, and set the number of available computing cores for your machine (see circa Line 61 of the R script), you should be able to simply hit the "source" button in RStudio or run "source("RI_Nicaragua_Replication.R")" to redo my analyses. This will also carry out all of the goodness-of-fit tests and generate the text files containing the numbers used to produce Table 1, Table 2, Table 3, and Table 4 in the manuscript (N.B. Online-Only Table 1 is made by hand).
+**_After_** you have placed the data files and the R script in the same R working directory, installed the necessary packages, and set the number of available computing cores for your machine (see circa Line 68 of the R script), you should be able to simply hit the "source" button in RStudio or run "source("RI_Nicaragua_Replication.R")" to redo my analyses. This will also carry out all of the goodness-of-fit tests and generate the text files containing the numbers used to produce Table 1, Table 2, Table 3, and Table 4 in the manuscript (N.B. Online-Only Table 1 is made by hand).
 
 
 ## Executables & Packages
@@ -24,7 +24,7 @@ Finally, when re-running my analyses, some numerical results may differ slightly
 
 ## Summary of Files in Repository
 
-### Summary of Key Files on the OSF ###
+### Summary of Files in Repository ###
 
  1) RI_Nicaragua_Replication.R (Script for Data Preparation, Transformation, Analyses, and Goodness-of-Fit)
 
@@ -38,20 +38,26 @@ Finally, when re-running my analyses, some numerical results may differ slightly
  
  6) groundhog-1.5.0.tar.gz ("groundhog" source code)
 
- 7) Ripley et al. - 2021 - Manual for RSiena (v. 1.3.3).pdf" [2]
+ 7) Ripley et al. - 2022 - Manual for RSiena (v. 1.3.6).pdf" [2]
 
- 8) rsiena-1.3.3.tar.gz ("RSiena" source code)
+ 8) rsiena-1.3.6.tar.gz ("RSiena" source code)
 
  9) R-4.1.2-arm64.pkg (Apple M1 Mac OSX version of R)
 
- 10) RStudio-2021.09.0-351.dmg (Mac OSX version of RStudio)
+ 10) SAOM_Model_1_Conventional_Model_Lambda_36.RData (SAOM/RSIENA Fitted Model Object - M1)
+ 11) SAOM_Model_2_Extended_Model_Lambda_36.RData (SAOM/RSIENA Fitted Model Object - M2)
+ 12) SAOM_Model_3_Network_Aid_Model_Restricted_Lambda_36.RData (SAOM/RSIENA Fitted Model Object - M3)
+ 13) SAOM_Model_4_Network_Aid_Model_Full_Lambda_36.RData (SAOM/RSIENA Fitted Model Object - M4)
+ 14) SAOM_Model_5_Conventional_Model_Lambda_108.RData (SAOM/RSIENA Fitted Model Object - M5)
+ 15) SAOM_Model_6_Extended_Model_Lambda_108.RData (SAOM/RSIENA Fitted Model Object - M6)
+ 16) SAOM_Model_7_Network_Aid_Model_Restricted_Lambda_108.RData (SAOM/RSIENA Fitted Model Object - M7)
+ 17) SAOM_Model_8_Network_Aid_Model_Full_Lambda_108.RData (SAOM/RSIENA Fitted Model Object - M8)
  
- 11) Reproducible Visone Visualisation Directions.txt (Directions to recreate Figure 1 in the paper)
- 
- 12) Relatedness Custom Colour Palette KARPFENBLAU_GOLD.pdf (Colour palette used to create Figure 1)
- 
- 13) Arang.Dak.Tangible.Support.Intersection.graphml (Network file used to plot Figure 1 with Visone [https://visone.ethz.ch])
-
+ 18) Figure 1 SciData Social Support and Network Formation (2022-03-02).pdf
+ 19) Figure 1 SciData Social Support and Network Formation (2022-03-02).svg
+ 20) Reproducible Visone Visualisation Directions.txt (Directions to recreate Figure 1)
+ 21) Relatedness Custom Colour Palette KARPFENBLAU_GOLD.pdf (Colour palette used to create Figure 1)
+ 22) Arang.Dak.Tangible.Support.Intersection.graphml (Network file used to plot Figure 1 with Visone [https://visone.ethz.ch])
 
 
 ## Key Citations for Replicators
@@ -67,3 +73,5 @@ Finally, when re-running my analyses, some numerical results may differ slightly
 1) Thank you for your interest in my work! Please do let me know if something goes wrong. I am more than happy to help and you can always email me.
 
 2) The estimation of the SAOMs takes a very, very long time. Although one can estimate these models more quickly (i.e., hours) using multiple CPU cores, doing so ignores the random seed and thus prevents exact reproducibility. Depending on the strength of your CPU, redoing my analyses is expected to take at least/around four days — primarily owing to the SAOMs that allow a larger number of average changes to network members' portfolios of outgoing ties during the simulation (for details, see the manuscript for discussion of the SAOM parameter "Lambda"). Note that the four-day expectation is optimistic as it is based on how long SAOMs take to estimate and completely converge using the Apple M1 Max Chip which, at the time of writing, has an exceptional single-core speed (https://browser.geekbench.com/macs/macbook-pro-16-inch-2021-apple-m1-max). Slower CPUs will see longer estimation times.
+
+
