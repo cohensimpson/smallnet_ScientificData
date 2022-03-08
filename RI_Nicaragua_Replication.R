@@ -932,6 +932,11 @@ siena.coefs[, c("beta_hat_M4", "beta_hat_M8",
                 "p_value_M4", "p_value_M8",
                 "RI_M4", "RI_M8")]
 
+## RI For All Models
+print(siena.coefs[, c("RI_M1", "RI_M5", 
+                      "RI_M2", "RI_M6",
+                      "RI_M3", "RI_M7",
+                      "RI_M4", "RI_M8")])
 
 
 
