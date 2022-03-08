@@ -14,6 +14,7 @@ Here, you will find a single R Script and two ".csv" data files. I have treated 
 **_After_** you have placed the data files and the R script in the same R working directory, installed the necessary packages, and set the number of available computing cores for your machine (see circa Line 68 of the R script), you should be able to simply hit the "source" button in RStudio or run "source("RI_Nicaragua_Replication.R")" to redo my analyses. This will also carry out all of the goodness-of-fit tests and generate the text files containing the numbers used to produce Table 1, Table 2, Table 3, and Table 4 in the manuscript (N.B. Online-Only Table 1 is made by hand).
 
 
+
 ## Executables & Packages
 In addition to the R scripts, I have included in the repository the installation files for the version of the two R packages integral to my analyses — i.e, the packages "RSiena" (https://github.com/snlab-nl/rsiena/wiki) and "groundhog" (https://groundhogr.com). Note that you may need to first install GCC (https://formulae.brew.sh/formula/gcc) — i.e., the GNU Compiler Collection — before attempting to install RSiena from source. Also, see the list of loaded packages at the very beginning of the R scripts for other short notes on dependencies that you may need to address.
 
@@ -22,10 +23,8 @@ For the unfamiliar, the groundhog package is a fabulous innovation that is desig
 Finally, when re-running my analyses, some numerical results may differ slightly from those reported in the paper due to stochastic perturbations. I have used the same random seed (20180709) to ensure exact reproducibility wherever possible. However, this is not always an option depending on the function.
 
 
+
 ## Summary of Files in Repository
-
-### Summary of Files in Repository ###
-
  1) RI_Nicaragua_Replication.R (Script for Data Preparation, Transformation, Analyses, and Goodness-of-Fit)
 
  2) RSOS_corrected_data (14 May 2018).csv (Monadic Covariates + Dyadic Covariates + Network Data Collected by Koster (2018) for his Royal Society Open Science Paper — Excluding the Ethnicity Variable and Including Koster’s [1] Corrected Kinship Measures) 
@@ -58,6 +57,7 @@ Finally, when re-running my analyses, some numerical results may differ slightly
  20) Reproducible Visone Visualisation Directions.txt (Directions to recreate Figure 1)
  21) Relatedness Custom Colour Palette KARPFENBLAU_GOLD.pdf (Colour palette used to create Figure 1)
  22) Arang.Dak.Tangible.Support.Intersection.graphml (Network file used to plot Figure 1 with Visone [https://visone.ethz.ch])
+
 
 
 ## Key Citations for Replicators
