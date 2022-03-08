@@ -1142,7 +1142,8 @@ siena.GOFs <- apply(siena.GOFs , MARGIN = 2, FUN = function(x){sprintf("%.3f", x
 rownames(siena.GOFs) <- c("In-degree Distribution", "Out-degree Distribution", "Distribution of Geodesic Distances", "Triad Census", "Clique Census", "Consanguineous Ties")
 
 
-print(siena.GOFs)
+print(siena.GOFs[, 1:8])
+print(siena.GOFs[, 9:16])
 
 
 #### Use Microsoft Word's convert text to table option (tab delimited)
