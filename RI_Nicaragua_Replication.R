@@ -384,6 +384,10 @@ table(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "i
 stat.desc(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "outdegree"))
 stat.desc(degree(tangible.support.matrix.intersection, gmode = "digraph", cmode = "indegree"))
 
+table(geodist(tangible.support.matrix.intersection)$gdist) 
+
+clique.census(tangible.support.matrix.intersection,  mode = "graph", tabulate.by.vertex = FALSE, enumerate = FALSE)$clique.count
+
 
 
 ################################ PREPARATION OF OBJECTS FOR MODEL FITTING #################################
