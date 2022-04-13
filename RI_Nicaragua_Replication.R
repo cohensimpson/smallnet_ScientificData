@@ -882,7 +882,22 @@ siena.coefs$effect <- NULL ## Remove the first column
 siena.coefs[siena.coefs == "NA"] <- "" ## The cells associated with results for effects only in the second/sixth, third/seventh, and forth/eigth model specifications are NA for the other model specifications. Replace with nothing for pretty tabular presentation. 
 
 
-print(siena.coefs) ## See how it all looks.
+# print(siena.coefs) ## See how it all looks.
+
+print(siena.coefs[, c("beta_hat_M1", "se_beta_M1", "p_value_M1",
+                      "beta_hat_M2", "se_beta_M2", "p_value_M2",
+                      "beta_hat_M3", "se_beta_M3", "p_value_M3",
+                      "beta_hat_M4", "se_beta_M4", "p_value_M4")]) 
+
+print(siena.coefs[, c("beta_hat_M5", "se_beta_M5", "p_value_M5",
+                      "beta_hat_M6", "se_beta_M6", "p_value_M6",
+                      "beta_hat_M7", "se_beta_M7", "p_value_M7",
+                      "beta_hat_M8", "se_beta_M8", "p_value_M8")]) 
+
+print(siena.coefs[, c("RI_M1", "RI_M5",
+                      "RI_M2", "RI_M6",
+                      "RI_M3", "RI_M7",
+                      "RI_M4", "RI_M8")]) 
 
 
 #### Use Microsoft Word's convert text to table option (tab delimited)
