@@ -347,7 +347,7 @@ siena07RunToConvergence <- function(alg, dat, eff, ans0, modelName, ...){
 
 ################################# Network Descriptive Statistics #################################
 gden(list(tangible.support.matrix.seeking, tangible.support.matrix.giving), mode = "digraph") ## Network Density
-gcor(tangible.support.matrix.seeking, tangible.support.matrix.giving)
+gcor(tangible.support.matrix.seeking, tangible.support.matrix.giving, diag = FALSE, mode = "digraph")
 table(tangible.support.matrix.seeking, tangible.support.matrix.giving)
 
 
