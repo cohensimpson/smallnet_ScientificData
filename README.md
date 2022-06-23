@@ -1,7 +1,5 @@
 # Social Support and Network Formation in a Small-Scale Horticulturalist Population (Simpson, Accepted, Scientific Data)
 
-[![DOI](https://zenodo.org/badge/447094744.svg)](https://zenodo.org/badge/latestdoi/447094744)
-
 
 ## Abstract
 Evolutionary studies of cooperation in traditional human societies suggest that helping family and responding in kind when helped are the primary mechanisms for informally distributing resources vital to day-to-day survival (e.g., food, knowledge, money, childcare). However, these studies generally rely on forms of regression analysis that disregard complex interdependences between aid, resulting in the implicit assumption that kinship and reciprocity drive the emergence of entire networks of supportive social bonds. Here I evaluate this assumption with actor-based simulations of network formation (i.e., Stochastic Actor-Oriented Models). Specifically, I test standard predictions of cooperation derived from the evolutionary theories of kin selection and reciprocal altruism alongside well-established sociological predictions around the self-organisation of asymmetric relationships. Simulations are calibrated to exceptional public data on genetic relatedness and the provision of tangible aid amongst all 108 adult residents of a village of indigenous horticulturalists in Nicaragua (11,556 ordered dyads). Results indicate that relatedness and reciprocity are markedly less important to whom one helps compared to the supra-dyadic arrangement of the tangible aid network itself.
