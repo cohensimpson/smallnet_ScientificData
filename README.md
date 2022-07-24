@@ -1,4 +1,4 @@
-# Social Support and Network Formation in a Small-Scale Horticulturalist Population (Simpson, 2022, Scientific Data)
+# Social Support and Network Formation in a Small-Scale Horticulturalist Population (Simpson, Accepted, Scientific Data)
 
 
 ## Abstract
